@@ -1,19 +1,19 @@
-name: "Publish Docs [DISABLED]"
-# SECURITY: All Python/PySpark workflows disabled due to active supply chain attack
-# targeting OSS package ecosystems (PyPI). C2 domains: models.litellm.cloud, checkmarx.zone
-# Date disabled: 2026-03-25
-# To re-enable: remove 'if: false' from all jobs and restore original triggers
+name: "Publish Docs"
 
 on:
-  workflow_dispatch: # manual-only, auto triggers removed
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build_api_docs:
-    if: false # SECURITY: disabled - supply chain attack mitigation
     name: Build API docs (${{ matrix.version.name }})
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: true
       matrix:
         version:
           - name: latest
@@ -74,7 +74,6 @@ jobs:
           path: ${{ matrix.version.out_dir }}
 
   build_site:
-    if: false # SECURITY: disabled - supply chain attack mitigation
     name: Build site
     needs: build_api_docs
     runs-on: ubuntu-latest
@@ -114,7 +113,7 @@ jobs:
         run: python3 docs/generate_docs.py
 
       - name: Install Netlify CLI
-        run: pnpm i -g netlify-cli@23.15.1 # 2026-02-04, pre-attack baseline
+        run: pnpm i -g netlify-cli@23.15.1
 
       - name: Publish site to Netlify
         run: netlify deploy --dir=docs/dist --prod

@@ -26,7 +26,7 @@ jobs:
     name: "DK: Shard ${{ matrix.shard }}"
     runs-on: ubuntu-24.04
     strategy:
-      fail-fast: false # Allow all shards to run even if one fails
+      fail-fast: true
       matrix:
         shard: [0, 1, 2, 3]
     env:

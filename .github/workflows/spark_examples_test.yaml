@@ -10,6 +10,9 @@ on:
     paths-ignore:
       - '**.md'
       - '**.txt'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   # Generate Spark versions matrix from CrossSparkVersions.scala
   # This workflow tests against released versions only (no snapshots)
@@ -38,6 +41,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs: generate-matrix
     strategy:
+      fail-fast: true
       matrix:
         # Spark versions are dynamically generated - released versions only
         spark_version: ${{ fromJson(needs.generate-matrix.outputs.spark_versions) }}
