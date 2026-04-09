@@ -22,6 +22,7 @@ jobs:
     name: "DIL: Scala ${{ matrix.scala }}"
     runs-on: ubuntu-24.04
     strategy:
+      fail-fast: true
       matrix:
         # These Scala versions must match those in the build.sbt
         scala: [2.13.16]

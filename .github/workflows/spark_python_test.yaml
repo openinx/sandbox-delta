@@ -45,6 +45,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs: generate-matrix
     strategy:
+      fail-fast: true
       matrix:
         # Spark versions are dynamically generated - released versions only
         spark_version: ${{ fromJson(needs.generate-matrix.outputs.spark_versions) }}

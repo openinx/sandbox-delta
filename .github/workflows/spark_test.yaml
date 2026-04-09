@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-24.04
     needs: generate-matrix
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         # Spark versions are dynamically generated from CrossSparkVersions.scala
         # DO NOT hardcode versions here - they are automatically loaded from the build configuration
