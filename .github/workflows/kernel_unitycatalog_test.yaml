@@ -20,6 +20,9 @@ on:
       - 'storage/**/*.scala'
       - 'storage/**/*.java'
       - '.github/workflows/kernel_unitycatalog_test.yaml'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
     name: "Kernel Unity Catalog Tests"

@@ -17,6 +17,9 @@ env:
   # This date is a pre-attack baseline (before the active PyPI supply chain attack).
   UV_EXCLUDE_NEWER: "2026-03-10T00:00:00Z"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   # Generate Spark versions matrix from CrossSparkVersions.scala
   # This workflow tests against released versions only (no snapshots)

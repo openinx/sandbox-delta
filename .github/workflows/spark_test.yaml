@@ -10,6 +10,9 @@ on:
     paths-ignore:
       - '**.md'
       - '**.txt'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   # Generate Spark versions matrix from CrossSparkVersions.scala
   # This ensures the workflow always uses the versions defined in the build
